@@ -1,0 +1,270 @@
+                                                                            Navbar
+
+
+// import React, { Component } from 'react'
+// import { Link } from 'react-router-dom'
+
+// export class Navbar extends Component {
+//     render() {
+//         return (
+//             <div>
+//                 <nav className="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+//                     <div className="container-fluid">
+//                         <Link className="navbar-brand text-danger" to="/">NewsMonkey</Link>
+//                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+//                             <span className="navbar-toggler-icon"></span>
+//                         </button>
+//                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
+//                             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+//                                 <li className="nav-item">
+//                                     <Link className="nav-link " aria-current="page" to="/">Home</Link>
+//                                 </li>
+//                                 <li className="nav-item">
+//                                     <Link className="nav-link " to="/technology">Technology</Link>
+//                                 </li>
+//                                 <li className="nav-item">
+//                                     <Link className="nav-link " to="/entertainment">Entertainment</Link>
+//                                 </li>
+//                                 <li className="nav-item">
+//                                     <Link className="nav-link " to="/health">Health</Link>
+//                                 </li>
+//                                 <li className="nav-item">
+//                                     <Link className="nav-link " to="/science">Science</Link>
+//                                 </li>
+//                                 <li className="nav-item">
+//                                     <Link className="nav-link " to="/sports">Sports</Link>
+//                                 </li>
+//                                 <li className="nav-item">
+//                                     <Link className="nav-link " to="/business">Business</Link>
+//                                 </li>
+//                             </ul>
+//                         </div>
+//                     </div>
+//                 </nav>
+//             </div>
+//         )
+//     }
+// }
+
+// export default Navbar
+
+                                                                                   App.js
+
+
+
+// import './App.css';
+// import React, { Component } from 'react'
+// import Navbar from './components/Navbar';
+// import News from './components/News';
+// import {
+//   BrowserRouter as Router,
+//   Switch,
+//   Route
+// } from "react-router-dom";
+// import LoadingBar from 'react-top-loading-bar'
+
+// export class App extends Component {
+//   pageSize = 15;
+//   country = "in";
+//   state ={
+//     progress: 0
+//   }
+//   setProgress = (progress)=>{
+//     this.setState({progress: progress})
+//   }
+//   render() {
+//     return (
+//       <div>
+//         <Router>
+//           <Navbar />
+//           <LoadingBar
+//             color='#f11946'
+//             progress={this.state.progress}
+//           />
+//           <Switch>
+//             <Route exact path="/">
+//               <News progress={this.setProgress} key="general" title="NewsMonkey - Today's Top Headlines" pagS={this.pageSize} country={this.country} category="general" />
+//             </Route>
+//             <Route exact path="/technology">
+//               <News progress={this.setProgress} key="technology" title="NewsMonkey - Technology Top Headlines" pagS={this.pageSize} country={this.country} category="technology" />
+//             </Route>
+//             <Route exact path="/entertainment">
+//               <News progress={this.setProgress} key="entertainment" title="NewsMonkey - Entertainment Top Headlines" pagS={this.pageSize} country={this.country} category="entertainment" />
+//             </Route>
+//             <Route exact path="/health">
+//               <News progress={this.setProgress} key="health" title="NewsMonkey - Health Top Headlines" pagS={this.pageSize} country={this.country} category="health" />
+//             </Route>
+//             <Route exact path="/science">
+//               <News progress={this.setProgress} key="science" title="NewsMonkey - Science Top Headlines" pagS={this.pageSize} country={this.country} category="science" />
+//             </Route>
+//             <Route exact path="/sports">
+//               <News progress={this.setProgress} key="sports" title="NewsMonkey - Sports Top Headlines" pagS={this.pageSize} country={this.country} category="sports" />
+//             </Route>
+//             <Route exact path="/business">
+//               <News progress={this.setProgress} key="business" title="NewsMonkey - Business Top Headlines" pagS={this.pageSize} country={this.country} category="business" />
+//             </Route>
+//           </Switch>
+//         </Router>
+//       </div>
+//     )
+//   }
+// }
+
+// export default App
+
+
+                                                                                                   News.js
+
+
+// import React, { Component } from 'react'
+// import NewsItem from './NewsItem'
+// import InfiniteScroll from "react-infinite-scroll-component";
+// import PropTypes from 'prop-types'
+
+
+// export class News extends Component {
+//     static defaultProps ={
+//         country: "in",
+//         category: "general",
+//         pagS: 15
+//     }
+//     static propsTypes ={
+//         country: PropTypes.string,
+//         category: PropTypes.string,
+//         pagS: PropTypes.number
+//     }
+
+   
+
+//     constructor() {
+//         super();
+//         this.state = {
+//             articles: [],
+//             page: 1,
+//             loading: false,
+//             totalResults: null
+//         }
+//     }
+
+//     async componentDidMount() {
+//         this.props.progress(10)
+//         let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=637faae2d21243f182db4fb91bf69807&pageSize=${this.props.pagS}&page=${this.state.page}`;
+//         this.setState({ loading: true })
+//         this.props.progress(30)
+//         let data = await fetch(url);
+//         this.props.progress(50)
+//         let parsedData = await data.json();
+//         this.props.progress(70)
+//         this.setState({ articles: parsedData.articles, page: this.state.page, totalResults: parsedData.totalResults, loading: false });
+//         this.props.progress(100)
+//         document.title = `${this.props.title}`
+//     }
+
+
+//     fetchMoreData = async () => {
+//         this.setState({ page: this.state.page + 1 })
+//         let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=637faae2d21243f182db4fb91bf69807&pageSize=${this.props.pagS}&page=${this.state.page}`
+//         this.setState({ loading: true })
+//         let data = await fetch(url)
+//         let parsedData = await data.json()
+//         this.setState({ articles: this.state.articles.concat(parsedData.articles), page: this.state.page, totalResults: parsedData.totalResults, loading: false })
+//     };
+
+//     render() {
+//         return (
+//             <div style={{marginTop: "75px"}}>
+//                 <h2 className="text-center text-danger my-3">{this.props.title}</h2>
+//                 <hr style={{border: "2px solid red"}}/>
+//                 <InfiniteScroll
+//                     dataLength={this.state.articles.length}
+//                     next={this.fetchMoreData}
+//                     hasMore={this.state.articles.length !== this.state.totalResults}
+//                     loader={this.state.loading && <div class="d-flex justify-content-center"> <button class="btn btn-primary" type="button" disabled>
+//                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+//                         <span class="visually-hidden">Loading...</span>
+//                     </button></div>}>
+//                     <div className="container">
+//                         <div className="row">
+//                             {this.state.articles && this.state.articles.map((element) => {
+//                                 return <div className="col-md-4" key={element.url}>
+//                                     <NewsItem title={element.title ? element.title : "..."} description={element.description} imgUrl={element.urlToImage} newsUrl={element.url} author={element.author ? element.author : "Unknown"} source={element.source.name} publishedAt={element.publishedAt} />
+//                                 </div>
+//                             })}
+//                         </div>
+//                     </div>
+//                 </InfiniteScroll>
+//             </div>
+//         )
+//     }
+// }
+
+// export default News
+
+
+
+
+
+
+// async Uto(){
+//     let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey9074da307350426090034783bb3e72ad&pageSize=${this.props.pagS}&page=${this.state.page}`;
+//     this.setState({loading: true})
+//     let data = await fetch(url);
+//     let parsedData = await data.json();
+//     this.setState({ articles: parsedData.articles,page: this.state.page, totalResults: parsedData.totalResults,loading: false });
+// }
+
+// handleOnNext = () => {
+//     this.setState({ page: this.state.page + 1});
+//     this.Uto();
+// }
+// handleOnNext = async () => {
+//     this.setState({ loading: true })
+//     let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey9074da307350426090034783bb3e72ad&pageSize=${this.props.pagS}&page=${this.state.page + 1}`;
+//     let data = await fetch(url);
+//     let parsedData = await data.json();
+//     this.setState({ articles: parsedData.articles, page: this.state.page + 1, totalResults: parsedData.totalResults, loading: false });
+// }
+
+// handleOnPrev = async () => {
+//     this.setState({ loading: true })
+//     let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey9074da307350426090034783bb3e72ad&pageSize=${this.props.pagS}&page=${this.state.page - 1}`;
+//     let data = await fetch(url);
+//     let parsedData = await data.json();
+//     this.setState({ articles: parsedData.articles, page: this.state.page - 1, totalResults: parsedData.totalResults, loading: false });
+// }
+
+
+                                                                                 Newsitem.json
+
+
+
+ 
+
+// import React, { Component } from 'react'
+
+// export class NewsItem extends Component {
+
+//     render() {
+//         let { title, description, imgUrl, newsUrl, publishedAt, author, source } = this.props;
+//         return (
+//             <div className="my-3">
+//                 <div className="card text-white bg-dark">
+//                     <div style={{display: "flex",right: "0",position: "absolute"}}>
+//                     <span className="badge rounded-pill bg-danger">
+//                         {source}
+//                     </span>
+//                 </div>
+//                 <img src={!imgUrl ? "https://images.moneycontrol.com/static-mcnews/2021/09/Midcaps-770x433.jpg" : imgUrl} className="card-img-top" alt="..." />
+//                 <div className="card-body">
+//                     <h5 className="card-title text-danger">{title}</h5>
+//                     <p className="card-text text-light">{description}</p>
+//                     <p className="card-text "><small className="text-light">By {author} On {new Date(publishedAt).toGMTString()}</small></p>
+//                     <a href={newsUrl} target="_blank" rel="noreferrer" className="btn btn-sm btn-info">Read More</a>
+//                 </div>
+//             </div>
+//             </div >
+//         )
+//     }
+// }
+
+// export default NewsItem                                                                                
